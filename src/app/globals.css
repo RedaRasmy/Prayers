@@ -14,7 +14,7 @@
 body {
   color: var(--gray1);
   background: var(--green);
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 /* @media (prefers-color-scheme: dark) {
