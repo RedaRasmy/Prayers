@@ -2,6 +2,8 @@ import React from 'react'
 
 export default function Top() {
     return (
-        <div>Top</div>
+        <div className='h-[42%] '>
+            
+        </div>
     )
 }

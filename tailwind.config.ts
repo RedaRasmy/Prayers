@@ -11,7 +11,13 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        blacky : "var(--blacky)"
       },
+      backgroundColor :{
+        green : 'var(--green)',
+        gray1 : 'var(--gray1)',
+        gray2 : 'var(--gray2)',
+      }
     },
   },
   plugins: [],
