@@ -1,51 +1,78 @@
 import { useQuery } from "@tanstack/react-query";
-import {  useEffect, useState } from "react";
+import { useState } from "react";
 import { getCities, getTimingsByCityId } from "../api/apis";
-
+import getNextPrayer from "../utils/getNextPrayer";
+import getCurrentTime from "../utils/getCurrentTime";
+import useTimeLeft from "./useTimeLeft";
 
 export default function useTimings() {
-    const [currentCityId , setCurrentCityId ] = useState("59")
-    const [prayersArray , setPrayersArray] = useState<[string,string][]|null>(null)
+    const id = localStorage.getItem("currentCityId") || "59";
 
-    const today = new Date(); 
-    const dayNum = today.getDate()
+    const [currentCityId, setCurrentCityId] = useState(id);
+    const { dayNum, weekDay } = getCurrentTime();
 
     const citiesQuery = useQuery({
-        queryKey:['cities'],
+        queryKey: ["cities"],
         queryFn: getCities,
-    })
+    });
     const timingsQuery = useQuery({
-        queryKey: ["timings"],
-        queryFn:  () => getTimingsByCityId(currentCityId),
-    })
+        queryKey: ["timings", { cityId: currentCityId }],
+        queryFn: () => getTimingsByCityId(currentCityId),
+    });
+
     type Timing = {
-        date:{
-            gregorian :{
-                day : number
-            }
-        },
-        prayers :{
-            fajr : string
+        date: {
+        gregorian: {
+            day: number;
+        };
+        };
+        prayers: {
+        [key: string]: string;
+        };
+    };
+
+    function getPrayers(query) {
+        if (query.status === "success") {
+        const timing = query.data?.data.timings.find(
+            (timing: Timing) => timing.date.gregorian.day === dayNum
+        );
+        if (timing) {
+            const array: [string, string][] = Object.entries(timing.prayers);
+            return array;
+        }
         }
     }
 
-    useEffect(()=>{
-        if (timingsQuery.status === 'success') {
-            const prayersObj = timingsQuery.data.data.timings.find(
-                (timing:Timing)=>timing.date.gregorian.day === dayNum
-            ).prayers
-            if (prayersObj) {
-                const array : [string,string][] = Object.entries(prayersObj)
-                setPrayersArray(array)
-            }
+    function getDate(query) {
+        if (query.status === "success") {
+        const timing = query.data?.data.timings.find(
+            (timing: Timing) => timing.date.gregorian.day === dayNum
+        );
+        if (timing) {
+            return timing.date;
         }
-    },[currentCityId,dayNum,timingsQuery.status,timingsQuery.data])
+        }
+    }
+
+    const currentDate = getDate(timingsQuery);
+    const prayers = getPrayers(timingsQuery);
+    const nextPrayer = prayers ? getNextPrayer(prayers) : []
+    const timeLeft = useTimeLeft(nextPrayer[1]);
 
     return {
         citiesQuery,
         timingsQuery,
         currentCityId,
         setCurrentCityId,
-        prayersArray
-    }
+        getPrayers,
+        getDate,
+        currentDate,
+        weekDay,
+        prayers,
+        nextPrayer,
+        timeLeft,
+        isSuccess: timingsQuery.isSuccess,
+        isPending: timingsQuery.isPending,
+        isError: timingsQuery.isError,
+    };
 }

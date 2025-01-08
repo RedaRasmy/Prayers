@@ -8,7 +8,8 @@ import useTimings from '../../hooks/useTimings'
 export default function Location() {
     const ref = useRef(null)
     const {editMode,setEditMode,isClicked} = useClickOutside(ref)
-    const [currentCity, setCurrentCity] = useState("Mohammadia")
+    const city = localStorage.getItem("currentCity") || 'Mohammadia'
+    const [currentCity, setCurrentCity] = useState(city)
 
     const {citiesQuery,currentCityId,setCurrentCityId} = useTimings()
     
@@ -17,9 +18,12 @@ export default function Location() {
         if (citiesQuery.status === 'success'){
             const cities = citiesQuery.data.cities
             const exist = cities.find((e:CityType) => e.frenshCityName === currentCity)
-            if (exist) {
+            if (exist && editMode) {
                 setEditMode(false)
                 setCurrentCityId(exist.id)
+                localStorage.setItem('currentCityId',exist.id)
+                localStorage.setItem('currentCity',exist.frenshCityName)
+                window.location.reload()
             } else {
                 setEditMode(false)
                 const {frenshCityName} = cities.find((e:CityType)=> e.id === currentCityId)
@@ -34,6 +38,9 @@ export default function Location() {
             if (exist) {
                 setEditMode(false)
                 setCurrentCityId(exist.id)
+                localStorage.setItem('currentCityId',exist.id)
+                localStorage.setItem('currentCity',exist.frenshCityName)
+                window.location.reload()
             }
         }
     }
@@ -84,10 +91,10 @@ function Suggestions({cities}:{
     cities:CityType[]
 }) {
     return (
-        <datalist id='cities'>
+        <datalist id='cities' >
             {(cities) &&
             cities.map((city,i)=>(
-                <option key={i} id={city.id} value={city.frenshCityName}></option>
+                <option  key={i} id={city.id} value={city.frenshCityName}></option>
             ))}
         </datalist>
     )
