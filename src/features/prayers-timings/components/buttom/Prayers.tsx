@@ -35,7 +35,7 @@ type PrayerType = {
 const Prayer = ({prayer}:PrayerType) => {
     return (
         <div className='flex px-[5vw] hover:bg-green hover:text-gray1 items-center justify-between sm:justify-around'>
-            <p className='font-semibold capitalize'>{prayer[0]}</p>
+            <p className='font-semibold capitalize w-10'>{prayer[0]}</p>
             <p className='font-semibold tracking-wider'>{prayer[1]}</p>
         </div>
     )

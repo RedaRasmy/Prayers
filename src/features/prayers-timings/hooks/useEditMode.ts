@@ -11,7 +11,6 @@ export default function useEditMode(ref:RefObject<HTMLDivElement | null>) {
     const {editMode,setEditMode,isClicked} = useClickOutside(ref)
     const {citiesQuery,currentCityId,setCurrentCityId} = useTimings()
     
-
     useEffect(()=>{
         if (!editMode) return;
         if (inputValue === currentCity) {
@@ -59,3 +58,5 @@ export default function useEditMode(ref:RefObject<HTMLDivElement | null>) {
         citiesQuery
     }
 }
+
+
