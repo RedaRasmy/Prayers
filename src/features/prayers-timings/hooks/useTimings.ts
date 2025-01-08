@@ -6,10 +6,12 @@ import getCurrentTime from "../utils/getCurrentTime";
 import useTimeLeft from "./useTimeLeft";
 
 export default function useTimings() {
-    const [currentCityId, setCurrentCityId] = useState("");
+    const [currentCityId, setCurrentCityId] = useState("59");
     useEffect(()=>{
-        const id = localStorage.getItem("currentCityId") || "59";
-        setCurrentCityId(id)
+        const id = localStorage.getItem("currentCityId")
+        if (id) {
+            setCurrentCityId(id)
+        }
     },[])
 
     const { dayNum, weekDay } = getCurrentTime();

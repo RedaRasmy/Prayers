@@ -22,7 +22,7 @@ export default function Location() {
     return (
         <div
         className='h-[12%] flex items-center'>
-            <FontAwesomeIcon icon={faLocationDot} className='scale-150 mr-3' style={{color: "#ffffff",}} />
+            <FontAwesomeIcon icon={faLocationDot} className='size-5 mr-3'  />
             <div className='px-2 flex items-center'> Morocco,
                 {
                     !editMode
