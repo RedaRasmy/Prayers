@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useState } from "react";
 import { getCities, getTimingsByCityId } from "../api/apis";
 import getNextPrayer from "../utils/getNextPrayer";
@@ -31,7 +31,8 @@ export default function useTimings() {
         };
     };
 
-    function getPrayers(query) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function getPrayers(query:UseQueryResult<any, Error>) {
         if (query.status === "success") {
         const timing = query.data?.data.timings.find(
             (timing: Timing) => timing.date.gregorian.day === dayNum
@@ -43,7 +44,8 @@ export default function useTimings() {
         }
     }
 
-    function getDate(query) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function getDate(query:UseQueryResult<any, Error>) {
         if (query.status === "success") {
         const timing = query.data?.data.timings.find(
             (timing: Timing) => timing.date.gregorian.day === dayNum

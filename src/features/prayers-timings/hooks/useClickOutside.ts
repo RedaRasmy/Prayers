@@ -1,14 +1,14 @@
-import {  RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 
-export default function useClickOutside(ref:RefObject<null |Element>) {
+export default function useClickOutside(ref:RefObject<HTMLDivElement | null>) {
     const [isClicked,setIsClicked] = useState(false)
     const [editMode,setEditMode] = useState(false)
     
 
     
     const handleClick = (event:MouseEvent) => {
-        if (ref.current && !ref.current.contains(event.target as Node)) {
+        if (ref?.current && !ref.current.contains(event.target as Node)) {
             setIsClicked(true)
             setEditMode(false)
         } else {

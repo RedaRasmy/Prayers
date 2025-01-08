@@ -15,7 +15,7 @@ export default function TopContent() {
                 {
                     isSuccess &&
                     <div className='flex flex-col items-center space-y-2'>
-                        <p className='text-3xl lg:text-5xl'>{nextPrayer && nextPrayer[0]}</p>
+                        <p className='text-3xl lg:text-5xl capitalize'>{nextPrayer && nextPrayer[0]}</p>
                         <h1 className='text-7xl lg:text-9xl'>{nextPrayer && nextPrayer[1] }</h1>
                         <p className='text-2xl lg:text-4xl tracking-wider'>
                             -{timeLeft}
