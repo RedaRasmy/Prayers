@@ -7,12 +7,8 @@ import useTimings from "./useTimings"
 export default function useEditMode(ref:RefObject<HTMLDivElement | null>) {
     const [currentCity, setCurrentCity] = useState("Mohammadia")
     useEffect(()=>{
-        if (typeof window === 'undefined') {
-            const city = localStorage.getItem("currentCity")
-            if (city) {
-                setCurrentCity(city)
-            }
-        }
+        const city = localStorage.getItem("currentCity") || "Mohammadia"
+        setCurrentCity(city)
     },[])
 
     const [inputValue, setInputValue] = useState("")
@@ -29,6 +25,7 @@ export default function useEditMode(ref:RefObject<HTMLDivElement | null>) {
             if (exist) {
                 setEditMode(false)
                 setCurrentCityId(exist.id)
+                setCurrentCity(exist.frenshCityName)
                 localStorage.setItem('currentCityId',exist.id)
                 localStorage.setItem('currentCity',exist.frenshCityName)
                 window.location.reload()
@@ -45,6 +42,7 @@ export default function useEditMode(ref:RefObject<HTMLDivElement | null>) {
             setEditMode(false)
             if (exist) {
                 setCurrentCityId(exist.id)
+                setCurrentCity(exist.frenshCityName)
                 localStorage.setItem('currentCityId',exist.id)
                 localStorage.setItem('currentCity',exist.frenshCityName)
                 window.location.reload()
