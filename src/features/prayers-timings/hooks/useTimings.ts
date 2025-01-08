@@ -1,14 +1,17 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCities, getTimingsByCityId } from "../api/apis";
 import getNextPrayer from "../utils/getNextPrayer";
 import getCurrentTime from "../utils/getCurrentTime";
 import useTimeLeft from "./useTimeLeft";
 
 export default function useTimings() {
-    const id = localStorage.getItem("currentCityId") || "59";
+    const [currentCityId, setCurrentCityId] = useState("");
+    useEffect(()=>{
+        const id = localStorage.getItem("currentCityId") || "59";
+        setCurrentCityId(id)
+    },[])
 
-    const [currentCityId, setCurrentCityId] = useState(id);
     const { dayNum, weekDay } = getCurrentTime();
 
     const citiesQuery = useQuery({

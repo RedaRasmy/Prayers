@@ -5,8 +5,14 @@ import useTimings from "./useTimings"
 
 
 export default function useEditMode(ref:RefObject<HTMLDivElement | null>) {
-    const city = localStorage.getItem("currentCity") || 'Mohammadia'
-    const [currentCity, setCurrentCity] = useState(city)
+    const [currentCity, setCurrentCity] = useState("")
+    useEffect(()=>{
+        if (typeof window === 'undefined') {
+            const city = localStorage.getItem("currentCity") || 'Mohammadia'
+            setCurrentCity(city)
+        }
+    },[])
+
     const [inputValue, setInputValue] = useState("")
     const {editMode,setEditMode,isClicked} = useClickOutside(ref)
     const {citiesQuery,currentCityId,setCurrentCityId} = useTimings()
