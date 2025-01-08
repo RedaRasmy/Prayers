@@ -20,7 +20,7 @@ export default function Prayers() {
             }
             {
                 (timingsQuery.isSuccess) &&
-                prayers.map((prayer,i)=>(
+                prayers?.map((prayer,i)=>(
                     <Prayer key={i} prayer={prayer} />
                 ))
             }

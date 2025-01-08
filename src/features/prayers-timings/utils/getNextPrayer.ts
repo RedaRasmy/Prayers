@@ -7,7 +7,7 @@ export default function getNextPrayer(prayers:[string,string][]):[string,string]
 
     for (const prayer of prayers) {
         const [timingHours,timingMinutes] = getHoursAndMinutes(prayer[1])
-        if ((timingHours > hours) || (timingHours===hours && timingMinutes > minutes)) {
+        if ((timingHours > hours) || (timingHours === hours && timingMinutes > minutes)) {
             output = prayer
             break
         }
