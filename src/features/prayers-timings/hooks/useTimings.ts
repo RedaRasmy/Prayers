@@ -10,10 +10,10 @@ export default function useTimings() {
     useEffect(()=>{
         const id = localStorage.getItem("currentCityId") || '59'
         setCurrentCityId(id)
-        
     },[])
 
     const { dayNum, weekDay } = getCurrentTime();
+    console.log(dayNum)
 
     const citiesQuery = useQuery({
         queryKey: ["cities"],

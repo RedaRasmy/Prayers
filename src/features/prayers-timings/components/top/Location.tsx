@@ -1,8 +1,7 @@
-import { faLocationDot, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRef } from 'react'
 import { CityType } from '../../types'
 import useEditMode from '../../hooks/useEditMode'
+import SearchModal from './SearchModal'
 
 
 export default function Location() {
@@ -22,7 +21,7 @@ export default function Location() {
     return (
         <div
         className='h-[12%] flex items-center'>
-            <FontAwesomeIcon icon={faLocationDot} className='size-5 mr-3'  />
+            <SearchModal/>
             <div className='px-2 flex items-center'> Morocco,
                 {
                     !editMode
@@ -34,38 +33,22 @@ export default function Location() {
                     :
                         <div 
                         data-testid="cityInput"
-                        className='inline p-2'>
+                        className=' p-2 flex'>
                             <input 
                             placeholder='Search...'
                             onKeyDown={e=>{if(e.key==='Enter'){handleEnter()}}}
                             autoFocus
-                            className='bg-transparent outline-none'
+                            className='bg-transparent outline-none max-w-[50%] sm:max-w-none'
                             value={inputValue}
                             onChange={(e)=>setInputValue(e.target.value)}
                             type='text'
                             list='cities' />
-                            {
-                                citiesQuery.isError &&
-                                <h1>{JSON.stringify(citiesQuery.error)}</h1>
-                            }
-                            {
-                                citiesQuery.isPending &&
-                                <span className="loading loading-dots loading-xs"/>
-                            }
                             {
                                 citiesQuery.isSuccess &&
                                 <Suggestions cities={citiesQuery.data.cities}/>    
                             }
                         </div>
                 }
-                <div
-                    className='inline cursor-pointer ml-2'
-                    ref={searchRef}
-                    onClick={()=>{setEditMode(true)}}
-                    data-testid='clickable'
-                >
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </div>
             </div>
         </div>
     )
@@ -76,7 +59,7 @@ function Suggestions({cities}:{
     cities:CityType[]
 }) {
     return (
-        <datalist id='cities' >
+        <datalist id='cities' className='' >
             {(cities) &&
             cities.map((city,i)=>(
                 <option  key={i} id={city.id} value={city.frenshCityName}></option>
