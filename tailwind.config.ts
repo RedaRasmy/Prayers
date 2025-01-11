@@ -16,6 +16,7 @@ export default {
         blacky : "var(--blacky)",
         gray1 : 'var(--gray1)',
         gray2 : 'var(--gray2)',
+        green : 'var(--green)'
       },
       backgroundColor :{
         green : 'var(--green)',

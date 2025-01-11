@@ -13,7 +13,6 @@ export default function useTimings() {
     },[])
 
     const { dayNum, weekDay } = getCurrentTime();
-    console.log(dayNum)
 
     const citiesQuery = useQuery({
         queryKey: ["cities"],
