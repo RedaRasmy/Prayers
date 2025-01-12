@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCities } from "../api/apis";
 import { useEffect, useState } from "react";
+import { CityType } from "../utils/types";
 
 
 export default function useCities() {
     const [
-        citiesNames,
-        setCitiesNames
-    ] = useState< string[] | undefined >(undefined)
+        cities,
+        setCities
+    ] = useState< CityType[] | undefined >(undefined)
 
     const {
         data,
@@ -24,16 +25,13 @@ export default function useCities() {
             .filter(
                 city => (city.frenshCityName !== undefined) && (city.id !== "303")
             )
-            .map(
-                city => city.frenshCityName
-            )
-            setCitiesNames(array);
+            setCities(array);
         } 
     }, [isSuccess, data]);
 
     return {
         data,
-        citiesNames,
+        cities,
         isPending,
     }
 }

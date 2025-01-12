@@ -1,30 +1,34 @@
 import { useQuery} from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { getTimingsByCityId } from "../api/apis";
 import getNextPrayer from "../utils/getNextPrayer";
 import getCurrentTime from "../utils/getCurrentTime";
 import useTimeLeft from "./useTimeLeft";
 import { selectDate, selectPrayers } from "../utils/selectors";
+import { CityType } from "../utils/types";
+import useLocalStorage from "./useLocalstorage";
 
 export default function useTimings() {
-    const [currentCityId, setCurrentCityId] = useState("59");
-    useEffect(()=>{
-        const id = localStorage.getItem("currentCityId") || '59'
-        setCurrentCityId(id)
-    },[])
-
+    const [city] = useLocalStorage<CityType>('city')
+    
     const { dayNum, weekDay } = getCurrentTime();
+
+    console.log(city?.frenshCityName)
 
     const {
         data,
         isSuccess,
         isPending,
-        isError
+        isError,
     } = useQuery({
-        queryKey: ["timings", { cityId: currentCityId }],
-        queryFn: () => getTimingsByCityId(currentCityId),
+        enabled : !!city ,
+        queryKey: ["timings", { cityId: city?.id }],
+        queryFn: () => {
+            if (city?.id) {
+                return getTimingsByCityId(city.id)
+            }
+            return Promise.reject('City ID is undefined')
+        },
     });
-
 
 
     const currentDate = isSuccess ? selectDate(data.data,dayNum) : undefined
@@ -33,17 +37,15 @@ export default function useTimings() {
     const timeLeft = useTimeLeft(nextPrayer[1]) 
 
     return {
-        currentCityId,
-        setCurrentCityId,
+        data,
+        isSuccess,
+        isPending,
+        isError,
+        //
         currentDate,
         weekDay,
         prayers,
         nextPrayer,
         timeLeft,
-
-        data,
-        isSuccess,
-        isPending,
-        isError
     };
 }

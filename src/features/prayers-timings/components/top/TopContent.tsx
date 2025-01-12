@@ -4,6 +4,7 @@ import Location from './Location'
 
 export default function TopContent() {
     const {nextPrayer, timeLeft ,isSuccess,isPending} = useTimings()
+
     return (
         <div className='flex px-[5vw] flex-col  h-full justify-between'>
             <div className='h-[12%] flex justify-between'></div>

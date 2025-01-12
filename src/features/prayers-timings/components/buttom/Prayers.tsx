@@ -2,7 +2,6 @@ import React from 'react'
 import useTimings from '../../hooks/useTimings'
 
 export default function Prayers() {
-
     const {isError,isPending,isSuccess,prayers} = useTimings()
 
     return (
