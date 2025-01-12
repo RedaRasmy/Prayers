@@ -17,11 +17,11 @@ describe('Next Prayer' , () => {
         });
 
         const prayers: [string, string][] = [
-            ['Fajr', '05:00'], 
-            ['Dhuhr', '12:30'], 
-            ['Asr', '15:00'], 
-            ['Maghrib', '18:00'], 
-            ['Isha', '20:00'], 
+            ['Fajr', '05:00'],
+            ['Dhuhr', '12:30'],
+            ['Asr', '15:00'],
+            ['Maghrib', '18:00'],
+            ['Isha', '20:00'],
         ];
         const nextPrayer = getNextPrayer(prayers);
         expect(nextPrayer).toEqual(['Asr', '15:00']);
