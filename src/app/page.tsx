@@ -5,9 +5,11 @@ import { QueryClient,QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient()
 
 export default function Home() {
+
     return (
         <QueryClientProvider client={queryClient}>
-            <div className="h-[100dvh] bg-green">
+            <div className="h-[100dvh]">
+                
                 <Top/>
                 <Buttom/>
             </div>

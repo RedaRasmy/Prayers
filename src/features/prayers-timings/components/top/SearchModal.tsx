@@ -3,11 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { SyntheticEvent, useRef, useState } from "react"
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import useCities from "../../hooks/useCities";
 
 
 
 export default function SearchModal() {
+    const { citiesNames ,isPending} = useCities()
     const modalRef = useRef<HTMLDialogElement>(null)
+
     const [selectedCity,setSelectedCity] = useState<string|null>(null)
 
     const handleOpen = () => {
@@ -22,6 +25,7 @@ export default function SearchModal() {
     const handleChange = () => {
 
     }
+    
     return (
         <div>
             <FontAwesomeIcon
@@ -43,20 +47,21 @@ export default function SearchModal() {
                 <div className="flex justify-center items-center p-4 flex-col gap-5">
                     <Autocomplete
                         disablePortal
-                        options={['hello','hi']}
+                        loading={isPending}
+                        options={citiesNames || []}
                         sx={{ width: 300 }}
                         onChange={handleSelect}
-                        renderInput={ (params) => 
+                        renderInput={ (params) =>
                             <TextField 
-                                {...params} 
-                                label="City" 
+                                {...params}
+                                label="City"
                             />
                         }
                     />
                     <button 
                     onClick={handleChange}
                     disabled={selectedCity === null}
-                    className="btn px-10 hover:bg-lime-950 disabled:text-black disabled:text-opacity-40 bg-green text-gray1 ">
+                    className="btn outline-none px-10 hover:bg-lime-950 disabled:text-black disabled:text-opacity-40 bg-green text-gray1 ">
                         Change
                     </button>
                 </div>

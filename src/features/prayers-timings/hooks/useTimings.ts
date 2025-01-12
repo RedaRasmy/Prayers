@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getCities, getTimingsByCityId } from "../api/apis";
+import { getTimingsByCityId } from "../api/apis";
 import getNextPrayer from "../utils/getNextPrayer";
 import getCurrentTime from "../utils/getCurrentTime";
 import useTimeLeft from "./useTimeLeft";
@@ -14,25 +14,11 @@ export default function useTimings() {
 
     const { dayNum, weekDay } = getCurrentTime();
 
-    const citiesQuery = useQuery({
-        queryKey: ["cities"],
-        queryFn: getCities,
-    });
     const timingsQuery = useQuery({
         queryKey: ["timings", { cityId: currentCityId }],
         queryFn: () => getTimingsByCityId(currentCityId),
     });
 
-    type Timing = {
-        date: {
-        gregorian: {
-            day: number;
-        };
-        };
-        prayers: {
-        [key: string]: string;
-        };
-    };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getPrayers(query:UseQueryResult<any, Error>) {
@@ -46,6 +32,7 @@ export default function useTimings() {
         }
         }
     }
+
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function getDate(query:UseQueryResult<any, Error>) {
@@ -65,7 +52,6 @@ export default function useTimings() {
     const timeLeft = useTimeLeft(nextPrayer[1]);
 
     return {
-        citiesQuery,
         timingsQuery,
         currentCityId,
         setCurrentCityId,
