@@ -3,23 +3,23 @@ import useTimings from '../../hooks/useTimings'
 
 export default function Prayers() {
 
-    const {timingsQuery,prayers} = useTimings()
+    const {isError,isPending,isSuccess,prayers} = useTimings()
 
     return (
         <div className='h-[86%] grid grid-row-6 '>
             {
-                timingsQuery.isError &&
+                isError &&
                 <div className='font-bold text-xl text-center' >
                     <h1>Something wrong happend</h1>
                     <h2>Try again later!</h2>
                 </div>
             }
             {
-                timingsQuery.isPending &&
+                isPending &&
                 <span className="loading loading-spinner self-center justify-self-center size-12 bg-green"></span>
             }
             {
-                (timingsQuery.isSuccess) &&
+                (isSuccess) &&
                 prayers?.map((prayer,i)=>(
                     <Prayer key={i} prayer={prayer} />
                 ))

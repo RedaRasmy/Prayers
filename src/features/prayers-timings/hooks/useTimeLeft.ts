@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import getHoursAndMinutes from "../utils/getHoursAndMinutes";
 import getCurrentTime from "../utils/getCurrentTime";
 
-export default function useTimeLeft(prayerTiming: string) {
+export default function useTimeLeft(prayerTiming: string | undefined) {
 
     const [timingHours, timingMinutes] = getHoursAndMinutes(prayerTiming);
 
-    const [timeLeft,setTimeLeft] = useState("")
+    const [timeLeft,setTimeLeft] = useState<string|undefined>(undefined)
 
 
     useEffect(()=>{
+        if (!prayerTiming) return;
         const interval = setInterval(() => {
             const [hours, minutes] = getHoursAndMinutes();
             const {seconds} = getCurrentTime()

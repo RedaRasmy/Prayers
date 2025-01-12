@@ -1,9 +1,10 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getTimingsByCityId } from "../api/apis";
 import getNextPrayer from "../utils/getNextPrayer";
 import getCurrentTime from "../utils/getCurrentTime";
 import useTimeLeft from "./useTimeLeft";
+import { selectDate, selectPrayers } from "../utils/selectors";
 
 export default function useTimings() {
     const [currentCityId, setCurrentCityId] = useState("59");
@@ -14,56 +15,35 @@ export default function useTimings() {
 
     const { dayNum, weekDay } = getCurrentTime();
 
-    const timingsQuery = useQuery({
+    const {
+        data,
+        isSuccess,
+        isPending,
+        isError
+    } = useQuery({
         queryKey: ["timings", { cityId: currentCityId }],
         queryFn: () => getTimingsByCityId(currentCityId),
     });
 
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function getPrayers(query:UseQueryResult<any, Error>) {
-        if (query.status === "success") {
-        const timing = query.data?.data.timings.find(
-            (timing: Timing) => timing.date.gregorian.day === dayNum
-        );
-        if (timing) {
-            const array: [string, string][] = Object.entries(timing.prayers);
-            return array;
-        }
-        }
-    }
 
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function getDate(query:UseQueryResult<any, Error>) {
-        if (query.status === "success") {
-        const timing = query.data?.data.timings.find(
-            (timing: Timing) => timing.date.gregorian.day === dayNum
-        );
-        if (timing) {
-            return timing.date;
-        }
-        }
-    }
-
-    const currentDate = getDate(timingsQuery);
-    const prayers = getPrayers(timingsQuery);
+    const currentDate = isSuccess ? selectDate(data.data,dayNum) : undefined
+    const prayers = isSuccess ? selectPrayers(data.data,dayNum) : undefined
     const nextPrayer = prayers ? getNextPrayer(prayers) : []
-    const timeLeft = useTimeLeft(nextPrayer[1]);
+    const timeLeft = useTimeLeft(nextPrayer[1]) 
 
     return {
-        timingsQuery,
         currentCityId,
         setCurrentCityId,
-        getPrayers,
-        getDate,
         currentDate,
         weekDay,
         prayers,
         nextPrayer,
         timeLeft,
-        isSuccess: timingsQuery.isSuccess,
-        isPending: timingsQuery.isPending,
-        isError: timingsQuery.isError,
+
+        data,
+        isSuccess,
+        isPending,
+        isError
     };
 }

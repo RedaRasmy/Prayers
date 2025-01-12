@@ -15,12 +15,18 @@ export default function DatesSlider() {
 
 
 const SliderContent = () => {
-    const {currentDate,weekDay} = useTimings()
+    const {currentDate,weekDay,isSuccess} = useTimings()
 
-    return (
+    if (isSuccess) return (
         <div className='flex flex-col items-center '>
             <p className='font-[600]'>{weekDay}, {currentDate?.gregorian.month} {currentDate?.gregorian.day}</p>
-            <p className='opacity-50 font-semibold text-sm flex gap-2'>{currentDate?.hijri.day} <span className='flex justify-center items-center'>{currentDate?.hijri.month}</span> {currentDate?.hijri.year}</p>
+            <p className='opacity-50 font-semibold text-sm flex gap-2'>
+                {currentDate?.hijri.day} 
+                <span className='flex justify-center items-center'>
+                    {currentDate?.hijri.month}
+                </span> 
+                {currentDate?.hijri.year}
+            </p>
         </div>
     )
 }
