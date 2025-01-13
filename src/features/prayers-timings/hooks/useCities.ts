@@ -17,6 +17,7 @@ export default function useCities() {
     } = useQuery({
         queryKey: ["cities"],
         queryFn: getCities,
+        staleTime:Infinity
     });
 
     useEffect(() => { 

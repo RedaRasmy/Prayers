@@ -6,11 +6,15 @@ export default function getCurrentTime() {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     const weekDay = weekdays[today.getDay()]
     const seconds = today.getSeconds()
+    const hours = today.getHours()
+    const minutes = today.getMinutes()
+    
     return {
-        today,
         dayNum,
         weekdays,
         weekDay,
-        seconds
+        seconds,
+        hours,
+        minutes
     }
 }

@@ -46,5 +46,6 @@ export default function useLocalStorage<T>(key: string, initialValue?: T) {
     }, [key]);
 
     console.log('from useLocalStorage :' ,storedValue)
+    
     return [storedValue, setValue] as const;
 }

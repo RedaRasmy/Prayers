@@ -1,8 +1,8 @@
+import getCurrentTime from "./getCurrentTime";
 import getHoursAndMinutes from "./getHoursAndMinutes";
 
 export default function getNextPrayer(prayers:[string,string][]):[string,string] {
-    // const timings = Object.values(Object.fromEntries(prayers)) 
-    const [hours,minutes] = getHoursAndMinutes()
+    const {hours,minutes} = getCurrentTime()
     let output = prayers[0]
 
     for (const prayer of prayers) {

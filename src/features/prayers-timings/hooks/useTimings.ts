@@ -6,11 +6,17 @@ import useTimeLeft from "./useTimeLeft";
 import { selectDate, selectPrayers } from "../utils/selectors";
 import { CityType } from "../utils/types";
 import useLocalStorage from "./useLocalstorage";
+import getHoursAndMinutes from "../utils/getHoursAndMinutes";
 
 export default function useTimings() {
+    console.log('useTimings..')
     const [city] = useLocalStorage<CityType>('city')
     
     const { dayNum, weekDay } = getCurrentTime();
+
+    // hours and minutes left until midnight : to refetch data
+    const time = useTimeLeft('00:00')
+    const [hours,minutes] = time ? getHoursAndMinutes(time) : []
 
     console.log(city?.frenshCityName)
 
@@ -20,7 +26,7 @@ export default function useTimings() {
         isPending,
         isError,
     } = useQuery({
-        enabled : !!city ,
+        enabled : !!city && !!time,
         queryKey: ["timings", { cityId: city?.id }],
         queryFn: () => {
             if (city?.id) {
@@ -28,6 +34,7 @@ export default function useTimings() {
             }
             return Promise.reject('City ID is undefined')
         },
+        staleTime: 60000*(minutes+hours*60)
     });
 
 
