@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import Script from 'next/script';
+
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -30,6 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script src="https://kit.fontawesome.com/3238a6f5b5.js" crossOrigin="anonymous"></Script>
       <body
         className={`${poppins.className} antialiased`}
       >

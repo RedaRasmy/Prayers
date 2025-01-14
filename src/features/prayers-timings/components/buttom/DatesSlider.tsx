@@ -5,9 +5,7 @@ import useTimings from '../../hooks/useTimings'
 export default function DatesSlider() {
     return (
         <div className="h-[14%] px-[5vw] flex justify-center items-center border-b border-gray-300"> 
-            {/* <FontAwesomeIcon className='size-5 text-blacky opacity-80 rotate-180' icon={faGreaterThan} /> */}
             <SliderContent/>
-            {/* <FontAwesomeIcon className='size-5 text-blacky opacity-80' icon={faGreaterThan}  /> */}
         </div>
     )
 }

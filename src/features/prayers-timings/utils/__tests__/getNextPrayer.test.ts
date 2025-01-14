@@ -1,21 +1,18 @@
 import getNextPrayer from "../getNextPrayer";
-import getHoursAndMinutes from "../getHoursAndMinutes";
+import getCurrentTime from "../getCurrentTime";
 
-jest.mock("../getHoursAndMinutes")
+jest.mock("../getCurrentTime")
 
 describe('Next Prayer' , () => {
     it('should return the next prayer time based on the current time' , () =>{
-        (getHoursAndMinutes as jest.Mock).mockImplementation((timeString?: string) => { 
-            if (timeString) { 
-                // Call for prayer time
-                const [hours, minutes] = timeString.split(':').map(Number); 
-                return [hours, minutes]; 
-            } else { 
-                // Call for current time 
-                return [14, 30];
-            }
-        });
-
+        (getCurrentTime as jest.Mock).mockReturnValue({
+            dayNum : 5,
+            weekdays : [],
+            weekDay : 'monday',
+            seconds : 0,
+            hours : 14,
+            minutes : 0
+        })
         const prayers: [string, string][] = [
             ['Fajr', '05:00'],
             ['Dhuhr', '12:30'],
@@ -24,19 +21,18 @@ describe('Next Prayer' , () => {
             ['Isha', '20:00'],
         ];
         const nextPrayer = getNextPrayer(prayers);
+
         expect(nextPrayer).toEqual(['Asr', '15:00']);
     })
     it('should return the first prayer if current time passed Isha' , () =>{
-        (getHoursAndMinutes as jest.Mock).mockImplementation((timeString?: string) => { 
-            if (timeString) { 
-                // Call for prayer time
-                const [hours, minutes] = timeString.split(':').map(Number); 
-                return [hours, minutes]; 
-            } else { 
-                // Call for current time 
-                return [21, 30];
-            }
-        });
+        (getCurrentTime as jest.Mock).mockReturnValue({
+            dayNum : 5,
+            weekdays : [],
+            weekDay : 'monday',
+            seconds : 0,
+            hours : 21,
+            minutes : 0
+        })
         const prayers: [string, string][] = [ 
             ['Fajr', '05:00'], 
             ['Dhuhr', '12:30'],

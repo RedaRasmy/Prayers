@@ -1,5 +1,4 @@
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 import { SyntheticEvent, useRef, useState } from "react"
 import SelectCity from "../SelectCity";
 import useLocalStorage from "../../hooks/useLocalstorage";
@@ -34,16 +33,15 @@ export default function SearchModal() {
 
     return (
         <div>
-            <FontAwesomeIcon
-                className='size-5 mr-2 cursor-pointer'
-                icon={faLocationDot}
+            <i 
                 onClick={()=>handleOpen()}
+                className="fa-solid fa-location-dot text-2xl mr-2 cursor-pointer"
             />
             <dialog className="modal" ref={modalRef}>
                 <div className="modal-box bg-gray1 text-blacky">
                     <div className="modal-action">
                         <form method="dialog">
-                            <button className="btn btn-md text-lg btn-circle btn-ghost absolute right-2 top-2 text-green">✕</button>
+                            <button className="btn btn-md text-lg btn-circle absolute right-2 top-2 text-green">✕</button>
                         </form>
                     </div>
                     <SelectCityTitle/>
@@ -67,9 +65,8 @@ export default function SearchModal() {
 export function SelectCityTitle() {
     return (
         <h3 className="text-xl text-blacky font-semibold flex justify-center items-center tracking-wider mb-5">
-            <FontAwesomeIcon
-                icon={faLocationDot}
-                className="mr-2 size-8 text-green" 
+            <i 
+                className="fa-solid fa-location-dot mr-2 size-8 text-green"
             />
             <span>
                 SELECT A CITY
