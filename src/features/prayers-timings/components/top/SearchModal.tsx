@@ -41,7 +41,7 @@ export default function SearchModal() {
                 <div className="modal-box bg-gray1 text-blacky">
                     <div className="modal-action">
                         <form method="dialog">
-                            <button className="btn btn-md text-lg btn-circle absolute right-2 top-2 text-green">✕</button>
+                            <button className="btn btn-md btn-ghost text-lg border-none outline-none btn-circle absolute right-2 top-2 text-green">✕</button>
                         </form>
                     </div>
                     <SelectCityTitle/>
